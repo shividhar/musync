@@ -3,8 +3,8 @@ if (Meteor.isClient) {
   Session.setDefault('counter', 1);
 
   Template.splashPage.helpers({
-    counter: function () {
-      return Session.get('counter');
+    songList: function () {
+        console.log(Random.hexString(6).toUpperCase())
     }
   });
 
