@@ -14,28 +14,13 @@
       var tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
       document.head.appendChild(tag);
+      
+      setPlaylistList([{name: 'X', id:'XX'}, {name:'Y', id:'YY'}, {name:'Z', id:'ZZ'}]);
     }
 
     function youtubeDataApiLoaded()
     {
         dataApiReady = true;
-        waitForLoad();
-        /*
-      var request = gapi.client.youtube.search.list({q: "Uptown Funk", maxResults: 1, part: 'snippet'});
-      request.execute(function(response){
-        console.log(response.result);
-        for(var i in response.items)
-        {
-          var item = response.items[i];
-          console.log(item);
-          console.log(item.id.videoId + ": " + item.snippet.title);
-          var frame = document.createElement("iframe");
-          frame.width = 800;
-          frame.height = 600;
-          frame.src = 'https://www.youtube.com/embed/' + item.id.videoId + '?autoplay=1';
-          document.body.appendChild(frame);
-        }//<iframe width="560" height="315" src="https://www.youtube.com/embed/OPf0YbXqDm0" frameborder="0" allowfullscreen></iframe>
-      });*/
     }
     
     function onYouTubeIframeAPIReady()
@@ -57,35 +42,10 @@
                         event.target.loadVideoById(queuedVideo);
                     }
                   }
-            //'onReady': onPlayerReady,
-            //'onStateChange': onPlayerStateChange
             }
-        });//waitForLoad();
+        });
     }
     
-    function waitForLoad()
-    {
-        if(!iframeApiReady || !dataApiReady) { return; }
-        /*
-        var request = gapi.client.youtube.search.list({q: "Boomerang Walk Off The Earth", maxResults: 1, part: 'snippet'});
-        request.execute(function(response){
-            //console.log(response.result);
-            for(var i in response.items)
-            {
-                var item = response.items[i];
-                console.log(item.id.videoId);
-                
-                /*
-                console.log(item);
-                console.log(item.id.videoId + ": " + item.snippet.title);
-                var frame = document.createElement("iframe");
-                frame.width = 800;
-                frame.height = 600;
-                frame.src = 'https://www.youtube.com/embed/' + item.id.videoId + '?autoplay=1';
-                document.body.appendChild(frame);*
-            }
-        });*/
-    }
     function searchVideo()
     {
         if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
@@ -121,6 +81,30 @@
             }
         });
     }
+    
+    function setPlaylistList (playlistList)
+    {
+        var playlistListElement = document.getElementById('playlists');
+        for(var i = 1; i < playlistListElement.childNodes.length; i = i)
+        {
+            playlistListElement.removeChild(playlistListElement.childNodes[i]);
+        }
+        for(var i = 0; i < playlistList.length; i++)
+        {
+            var tr = document.createElement('tr');
+            playlistListElement.appendChild(tr);
+            var td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerHTML = playlistList[i].name;
+            td.value = playlistList[i].id;
+            td.addEventListener('click', function(event){ switchToPlayList(event.target.value); });
+        }
+    }
+    
+    function switchToPlayList(pId)
+    {
+        
+    }
   </script>
   
   <script src="https://apis.google.com/js/client.js?onload=init"></script>
@@ -129,8 +113,8 @@
     <table border="0">
         <tbody>
             <tr>
-                <td style='width:150px; vertical-align: top'>
-                    <table id='playlists' style='background: rgb(240, 240, 240); width:100%'>
+                <td style='width:150px; vertical-align: top; min-height:100%'>
+                    <table id='playlists' style='background: rgb(240, 240, 240); width:100%; min-height:100%'>
                         <tr>
                             <td>
                                 <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
@@ -138,8 +122,8 @@
                         </tr>
                     </table>
                 </td>
-                <td style='width:200px; vertical-align: top'>
-                    <table id='songList' style='background: rgb(220, 220, 220)'>
+                <td style='width:200px; vertical-align: top; min-height:100%'>
+                    <table id='songList' style='background: rgb(220, 220, 220); min-height:100%'>
                         
                     </table>
                 </td>
