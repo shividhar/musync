@@ -1,0 +1,170 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+  <script>
+    var apiKey = "AIzaSyD-29IN9uHhfvIVgQw9foPpz31bMc0bGE0";
+    var player;
+    var dataApiReady = false;
+    var iframeApiReady = false;
+    var queuedVideo;
+    function init()
+    {
+      gapi.client.setApiKey(apiKey);
+      gapi.client.load('youtube', 'v3').then(youtubeDataApiLoaded);
+      var tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+    }
+
+    function youtubeDataApiLoaded()
+    {
+        dataApiReady = true;
+        waitForLoad();
+        /*
+      var request = gapi.client.youtube.search.list({q: "Uptown Funk", maxResults: 1, part: 'snippet'});
+      request.execute(function(response){
+        console.log(response.result);
+        for(var i in response.items)
+        {
+          var item = response.items[i];
+          console.log(item);
+          console.log(item.id.videoId + ": " + item.snippet.title);
+          var frame = document.createElement("iframe");
+          frame.width = 800;
+          frame.height = 600;
+          frame.src = 'https://www.youtube.com/embed/' + item.id.videoId + '?autoplay=1';
+          document.body.appendChild(frame);
+        }//<iframe width="560" height="315" src="https://www.youtube.com/embed/OPf0YbXqDm0" frameborder="0" allowfullscreen></iframe>
+      });*/
+    }
+    
+    function onYouTubeIframeAPIReady()
+    {
+        iframeApiReady = true;
+        player = new YT.Player('player',
+        {
+            height: '600',
+            width: '800',
+            videoId: '',
+            events: {
+                'onReady': function (event) {
+                    //console.log(event.target);
+                    //event.target.playVideo();
+                    //event.target.loadVideoById(item.id.videoId);
+                    console.log(player);
+                    if(queuedVideo && queuedVideo != "")
+                    {
+                        event.target.loadVideoById(queuedVideo);
+                    }
+                  }
+            //'onReady': onPlayerReady,
+            //'onStateChange': onPlayerStateChange
+            }
+        });//waitForLoad();
+    }
+    
+    function waitForLoad()
+    {
+        if(!iframeApiReady || !dataApiReady) { return; }
+        /*
+        var request = gapi.client.youtube.search.list({q: "Boomerang Walk Off The Earth", maxResults: 1, part: 'snippet'});
+        request.execute(function(response){
+            //console.log(response.result);
+            for(var i in response.items)
+            {
+                var item = response.items[i];
+                console.log(item.id.videoId);
+                
+                /*
+                console.log(item);
+                console.log(item.id.videoId + ": " + item.snippet.title);
+                var frame = document.createElement("iframe");
+                frame.width = 800;
+                frame.height = 600;
+                frame.src = 'https://www.youtube.com/embed/' + item.id.videoId + '?autoplay=1';
+                document.body.appendChild(frame);*
+            }
+        });*/
+    }
+    function searchVideo()
+    {
+        if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
+        var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
+        request.execute(function(response)
+        {
+            var vRP = document.getElementById('videoResultParent');
+            while (vRP.firstChild)
+            {
+                vRP.removeChild(vRP.firstChild);
+            }
+            for(var i in response.items)
+            {
+                var item = response.items[i];
+                console.log(item);
+                var row = document.createElement('tr');
+                vRP.appendChild(row);
+                var cell = document.createElement('td');
+                row.appendChild(cell);
+                cell.value = item.id.videoId;
+                cell.addEventListener('click', function(event){ console.log('Load video: ' + event.target.value); player.loadVideoById(event.target.value); });
+                var vName = document.createElement('p');
+                vName.innerHTML = item.snippet.title;
+                vName.value = item.id.videoId;
+                cell.appendChild(vName);
+                var vThumb = document.createElement('img');
+                vThumb.value = item.id.videoId;
+                vThumb.src = item.snippet.thumbnails.default.url;
+                cell.appendChild(vThumb);
+                //var vAuthor = document.createElement('p');
+                //vName.innerHTML = item.snippet.title;
+                //cell.appendChild(vName);
+            }
+        });
+    }
+  </script>
+  
+  <script src="https://apis.google.com/js/client.js?onload=init"></script>
+</head>
+<body>
+    <table border="0">
+        <tbody>
+            <tr>
+                <td style='width:150px; vertical-align: top'>
+                    <table id='playlists' style='background: rgb(240, 240, 240); width:100%'>
+                        <tr>
+                            <td>
+                                <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style='width:200px; vertical-align: top'>
+                    <table id='songList' style='background: rgb(220, 220, 220)'>
+                        
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%; vertical-align: top">
+                                    <input type="text" name="searchField" id="searchField" value="" />
+                                    <input type="button" name="searchButton" id="searchButton" value="Search" onclick='searchVideo()' />
+                                    <p id='searchError'></p>
+                                    <table id="videoResultTable" border="0">
+                                        <tbody id="videoResultParent">
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td style="width: 50%; vertical-align: top">
+                                    <div id="player"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
