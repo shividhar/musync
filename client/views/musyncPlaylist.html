@@ -1,0 +1,42 @@
+<template name="musyncPlaylist">
+    <table border="0">
+        <tbody>
+            <tr>
+                <td style='width:150px; vertical-align: top'>
+                    <table id='playlists' style='background: rgb(240, 240, 240); width:100%'>
+                        <tr>
+                            <td>
+                                <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style='width:200px; vertical-align: top'>
+                    <table id='songList' style='background: rgb(220, 220, 220)'>
+                        
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 50%; vertical-align: top">
+                                    <input type="text" name="searchField" id="searchField" value="" />
+                                    <input type="button" name="searchButton" id="searchButton" value="Search" />
+                                    <p id='searchError'></p>
+                                    <table id="videoResultTable" border="0">
+                                        <tbody id="videoResultParent">
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td style="width: 50%; vertical-align: top">
+                                    <div id="player"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>
