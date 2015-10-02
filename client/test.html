@@ -85,9 +85,10 @@
     function setPlaylistList (playlistList)
     {
         var playlistListElement = document.getElementById('playlists');
-        for(var i = 1; i < playlistListElement.childNodes.length; i = i)
+        console.log(playlistListElement.children);
+        for(var i = 1; i < playlistListElement.children.length; i = 1)
         {
-            playlistListElement.removeChild(playlistListElement.childNodes[i]);
+            playlistListElement.removeChild(playlistListElement.children[i]);
         }
         for(var i = 0; i < playlistList.length; i++)
         {
@@ -114,12 +115,14 @@
         <tbody>
             <tr>
                 <td style='width:150px; vertical-align: top; min-height:100%'>
-                    <table id='playlists' style='background: rgb(240, 240, 240); width:100%; min-height:100%'>
-                        <tr>
-                            <td>
-                                <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
-                            </td>
-                        </tr>
+                    <table style='background: rgb(240, 240, 240); width:100%; min-height:100%'>
+                        <tbody id='playlists'>
+                            <tr>
+                                <td>
+                                    <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </td>
                 <td style='width:200px; vertical-align: top; min-height:100%'>
