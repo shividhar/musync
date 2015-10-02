@@ -65,21 +65,31 @@
                 vRP.appendChild(row);
                 var cell = document.createElement('td');
                 row.appendChild(cell);
-                cell.value = item.id.videoId;
-                cell.addEventListener('click', function(event){ console.log('Load video: ' + event.target.value); player.loadVideoById(event.target.value); });
+                //cell.value = item.id.videoId;
+                //cell.addEventListener('click', function(event){ console.log('Load video: ' + event.target.value); player.loadVideoById(event.target.value); });
                 var vName = document.createElement('p');
                 vName.innerHTML = item.snippet.title;
-                vName.value = item.id.videoId;
+                //vName.value = item.id.videoId;
                 cell.appendChild(vName);
                 var vThumb = document.createElement('img');
-                vThumb.value = item.id.videoId;
+                //vThumb.value = item.id.videoId;
                 vThumb.src = item.snippet.thumbnails.default.url;
                 cell.appendChild(vThumb);
+                var vAdd = document.createElement('div');
+                vAdd.style.cssText = 'width: 50px; height: 50px; background: rgb(230, 230, 230)';
+                vAdd.id = item.id.videoId;
+                vAdd.addEventListener('click', function(event){ addSongToPlaylist(event.target.id); });
+                cell.appendChild(vAdd);
                 //var vAuthor = document.createElement('p');
                 //vName.innerHTML = item.snippet.title;
                 //cell.appendChild(vName);
             }
         });
+    }
+    
+    function addSongToPlaylist(songId)
+    {
+        
     }
     
     function setPlaylistList (playlistList)
