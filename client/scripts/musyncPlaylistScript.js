@@ -63,6 +63,11 @@
           tag.src = 'https://www.youtube.com/iframe_api';
           document.head.appendChild(tag);
     }
+    Template.musyncPlaylist.helper({
+        playlistName: function()
+        {
+            //return 
+        });
     Template.musyncPlaylist.events({
         'click #searchButton': function(e){
              if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
@@ -97,5 +102,28 @@
                     //cell.appendChild(vName);
                 }
             });
+        }
+        
+        , 'click #songlistAdd': function(e)
+        {
+            Meteor.call('addSongToPlaylist', { videoId: , playlistId: Playlists.findOne().playlistId});
+        }
+        
+        , 'click #songlistMoveUp': function(e)
+        {
+            if(e.target.pos !== 0)
+            {
+                Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos - 1 } );
+            }
+        }
+        
+        , 'click #songlistMoveDown': function(e)
+        {
+            Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos + 1 } );
+        }
+        
+        , 'click #songlistRemove': function(e)
+        {
+            Meteor.call("removeSongFromPlaylist", { videoId: e.target.vid, playlistId: e.target.pid });
         }
     })

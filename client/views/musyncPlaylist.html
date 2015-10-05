@@ -9,12 +9,19 @@
                                 <input type="button" name="createPlaylist" id="createPlaylist" value="Create Playlist" style='width:100%' />
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                {{#each playlists}}
+                                    {{> musyncPlaylistItem}}
+                                {{/each}}
+                            </td>
+                        </tr>
                     </table>
                 </td>
                 <td style='width:200px; vertical-align: top'>
-                    <table id='songList' style='background: rgb(220, 220, 220)'>
-                        
-                    </table>
+                    {{#each songlist}}
+                        {{> musyncSongListItem}}
+                    {{/each}}
                 </td>
                 <td>
                     <table>
@@ -24,10 +31,11 @@
                                     <input type="text" name="searchField" id="searchField" value="" />
                                     <input type="button" name="searchButton" id="searchButton" value="Search" />
                                     <p id='searchError'></p>
-                                    <table id="videoResultTable" border="0">
-                                        <tbody id="videoResultParent">
-                                        </tbody>
-                                    </table>
+                                    <div id="videoResultTable">
+                                        {{#each searchResults}}
+                                            {{> musyncSearchResultItem}}
+                                        {{/each}}
+                                    </div>
                                 </td>
                                 <td style="width: 50%; vertical-align: top">
                                     <div id="player"></div>
