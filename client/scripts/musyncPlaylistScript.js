@@ -37,15 +37,13 @@
             width: "600", 
 
             // videoId is the "v" in URL (ex: http://www.youtube.com/watch?v=LdH1hSWGFGU, videoId = "LdH1hSWGFGU")
-            videoId: "LdH1hSWGFGU", 
+            videoId: "", 
 
             // Events like ready, state change, 
             events: {
 
                 onReady: function (event) {
-
-                    // Play video when player ready.
-                    event.target.playVideo();
+                    iframeApiReady = true;
                 }
 
             }
@@ -54,7 +52,7 @@
 
     };
 
-    YT.load();
+    // YT.load();
     
     Template.musyncPlaylist.created = function(){
           gapi.client.setApiKey(apiKey);
@@ -64,7 +62,7 @@
           document.head.appendChild(tag);
     }
     Template.musyncPlaylist.events({
-        'click #searchButton': function(e){
+        'click #searchButton, keydown #searchButton': function(e){
              if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
             var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
             request.execute(function(response)
@@ -82,20 +80,24 @@
                     vRP.appendChild(row);
                     var cell = document.createElement('td');
                     row.appendChild(cell);
-                    cell.value = item.id.videoId;
-                    cell.addEventListener('click', function(event){ console.log('Load video: ' + event.target.value); player.loadVideoById(event.target.value); });
                     var vName = document.createElement('p');
                     vName.innerHTML = item.snippet.title;
-                    vName.value = item.id.videoId;
                     cell.appendChild(vName);
                     var vThumb = document.createElement('img');
-                    vThumb.value = item.id.videoId;
                     vThumb.src = item.snippet.thumbnails.default.url;
                     cell.appendChild(vThumb);
+                    var vAdd = document.createElement('div');
+                    vAdd.style.cssText = 'width: 50px; height: 50px; background: rgb(230, 230, 230)';
+                    vAdd.className = "videoAddButton";
+                    vAdd.vId = item.id.videoId;
+                    cell.appendChild(vAdd);
                     //var vAuthor = document.createElement('p');
                     //vName.innerHTML = item.snippet.title;
                     //cell.appendChild(vName);
                 }
             });
+        },
+        'click div.videoAddButton': function(events){
+            addSongToPlaylist(event.target.vId);
         }
     })
