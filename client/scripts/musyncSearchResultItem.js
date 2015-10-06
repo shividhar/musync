@@ -5,11 +5,11 @@ Template.musyncSearchResultItem.helpers({
     }
     , resultAuthor: function()
     {
-        return resultAuthor;//'test3';
+        return this.resultAuthor;//'test3';
     }
     , resultThumb: function()
     {
-        return resultThumb;//'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
+        return this.resultThumb;//'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
     }
 });
 
