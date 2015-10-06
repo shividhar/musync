@@ -1,22 +1,23 @@
 <template name="musyncSongListItem">
-    <div class="songlistButton" value="{{ this }}">
-        <p class="songlistButton" value="{{ this }}">{{ songName }}</p>
-        <img class="songlistButton" value="{{ this }}" src="{{ songThumb }}">
+{{#with apiCall}}
+    <div class="songlistButton" value="{{ videoId }}">
+        <p class="songlistButton" value="{{ videoId }}">{{ songName }}</p>
+        <img class="songlistButton" value="{{ videoId }}" src="{{ songThumb }}">
         <table>
             <tbody>
                 <tr>
                     <td>
-                        <svg class="songlistMoveUp" vid="{{ this }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
+                        <svg class="songlistMoveUp" vid="{{ videoId }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
                             <polygon points="10,25 10,12.5 5,12.5 12.5,0 20,12.5 15,12.5 15,25"></polygon>
                         </svg>
                     </td>
                     <td>
-                        <svg class="songlistMoveDown" vid="{{ this }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
+                        <svg class="songlistMoveDown" vid="{{ videoId }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
                             <polygon points="10,0 10,12.5 5,12.5 12.5,25 20,12.5 15,12.5 15,0"></polygon>
                         </svg>
                     </td>
                     <td>
-                        <svg class="songlistRemove" vid="{{ this }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
+                        <svg class="songlistRemove" vid="{{ videoId }}" pid="{{ songOriginPlaylist }}" pos="{{ songPosition }}" width="25" height="25">
                             <line x1="0" y1="0" x2="25" y2="25" style="stroke: rgb(0,0,0); stroke-width:5"></line>
                             <line x1="0" y1="25" x2="25" y2="0" style="stroke: rgb(0,0,0); stroke-width:5"></line>
                         </svg>
@@ -25,4 +26,5 @@
             </tbody>
         </table>
     </div>
+{{/apiCall}}
 </template>
