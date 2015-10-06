@@ -64,22 +64,30 @@
     Template.musyncPlaylist.helper({
         playlistName: function()
         {
+            //return Session.get('playlists');
             //return 
-        });
+            return 'test1';
+        }
+        , resultName: function()
+        {
+            return 'test2';
+        }
+        , resultThumb: function()
+        {
+            return 'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
+        }
+        , 
+    });
     Template.musyncPlaylist.events({
         'click #searchButton, keydown #searchButton': function(e){
              if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
             var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
             request.execute(function(response)
             {
-                var vRP = document.getElementById('videoResultParent');
-                while (vRP.firstChild)
-                {
-                    vRP.removeChild(vRP.firstChild);
-                }
                 for(var i in response.items)
                 {
                     var item = response.items[i];
+                    /*
                     console.log(item);
                     var row = document.createElement('tr');
                     vRP.appendChild(row);
@@ -95,20 +103,17 @@
                     vAdd.style.cssText = 'width: 50px; height: 50px; background: rgb(230, 230, 230)';
                     vAdd.className = "videoAddButton";
                     vAdd.vId = item.id.videoId;
-                    cell.appendChild(vAdd);
+                    cell.appendChild(vAdd);*/
                     //var vAuthor = document.createElement('p');
                     //vName.innerHTML = item.snippet.title;
                     //cell.appendChild(vName);
                 }
             });
-        },
-        'click div.videoAddButton': function(events){
-            addSongToPlaylist(event.target.vId);
         }
         
         , 'click #songlistAdd': function(e)
         {
-            Meteor.call('addSongToPlaylist', { videoId: , playlistId: Playlists.findOne().playlistId});
+            Meteor.call('addSongToPlaylist', { videoId: e.target.vId, playlistId: Playlists.findOne().playlistId});
         }
         
         , 'click #songlistMoveUp': function(e)
