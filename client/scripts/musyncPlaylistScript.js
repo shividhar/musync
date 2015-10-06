@@ -45,30 +45,11 @@
           tag.src = 'https://www.youtube.com/iframe_api';
           document.head.appendChild(tag);
     }
-    Template.musyncPlaylist.events({
-        'click #searchButton, keydown #searchButton': function(e){
-
-        },
-        'click div.videoAddButton': function(events){
-            addSongToPlaylist(event.target.vId);
-        }
-    })
     Template.musyncPlaylist.helpers({
-        playlistName: function()
+        searchResults : function()
         {
-            //return Session.get('playlists');
-            //return 
-            return 'test1';
+            return Session.get('results');
         }
-        , resultName: function()
-        {
-            return 'test2';
-        }
-        , resultThumb: function()
-        {
-            return 'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
-        }
-        , 
     });
     Template.musyncPlaylist.events({
         'click #searchButton, keydown #searchButton': function(e){
@@ -76,33 +57,18 @@
             var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
             request.execute(function(response)
             {
+                var results = [];
                 for(var i in response.items)
                 {
                     var item = response.items[i];
+                    results.push({ resultTitle: item.snippet.title, resultAuthor: item.snippet.channelTitle, resultThumb: item.snippet.thumbnails.default.url });
                 }
+                
+                Session.set('results', results);
             });
         }
-        
-        , 'click #songlistAdd': function(e)
+        ,'click #createPlaylist': function(e)
         {
-            Meteor.call('addSongToPlaylist', { videoId: e.target.vId, playlistId: Playlists.findOne().playlistId});
-        }
-        
-        , 'click #songlistMoveUp': function(e)
-        {
-            if(e.target.pos !== 0)
-            {
-                Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos - 1 } );
-            }
-        }
-        
-        , 'click #songlistMoveDown': function(e)
-        {
-            Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos + 1 } );
-        }
-        
-        , 'click #songlistRemove': function(e)
-        {
-            Meteor.call("removeSongFromPlaylist", { videoId: e.target.vid, playlistId: e.target.pid });
+            Meteor.call('createPlaylist');
         }
     })
