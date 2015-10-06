@@ -57,7 +57,7 @@
     Template.musyncPlaylist.events({
         'click #searchButton, keydown #searchField': function(e){
             if(e.button == 0 || e.keyCode == 13){
-                 if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
+                if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
                 var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
                 request.execute(function(response)
                 {
