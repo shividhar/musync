@@ -7,22 +7,6 @@
     function youtubeDataApiLoaded()
     {
         dataApiReady = true;
-        /*
-      var request = gapi.client.youtube.search.list({q: "Uptown Funk", maxResults: 1, part: 'snippet'});
-      request.execute(function(response){
-        console.log(response.result);
-        for(var i in response.items)
-        {
-          var item = response.items[i];
-          console.log(item);
-          console.log(item.id.videoId + ": " + item.snippet.title);
-          var frame = document.createElement("iframe");
-          frame.width = 800;
-          frame.height = 600;
-          frame.src = 'https://www.youtube.com/embed/' + item.id.videoId + '?autoplay=1';
-          document.body.appendChild(frame);
-        }//<iframe width="560" height="315" src="https://www.youtube.com/embed/OPf0YbXqDm0" frameborder="0" allowfullscreen></iframe>
-      });*/
     }
     
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
@@ -67,5 +51,58 @@
         },
         'click div.videoAddButton': function(events){
             addSongToPlaylist(event.target.vId);
+        }
+    })
+    Template.musyncPlaylist.helpers({
+        playlistName: function()
+        {
+            //return Session.get('playlists');
+            //return 
+            return 'test1';
+        }
+        , resultName: function()
+        {
+            return 'test2';
+        }
+        , resultThumb: function()
+        {
+            return 'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
+        }
+        , 
+    });
+    Template.musyncPlaylist.events({
+        'click #searchButton, keydown #searchButton': function(e){
+             if(!dataApiReady){ document.getElementById('searchError').innerHTML = "Youtube Data API is not ready!"; return; }
+            var request = gapi.client.youtube.search.list({q: document.getElementById('searchField').value, maxResults: 10, part: 'snippet'});
+            request.execute(function(response)
+            {
+                for(var i in response.items)
+                {
+                    var item = response.items[i];
+                }
+            });
+        }
+        
+        , 'click #songlistAdd': function(e)
+        {
+            Meteor.call('addSongToPlaylist', { videoId: e.target.vId, playlistId: Playlists.findOne().playlistId});
+        }
+        
+        , 'click #songlistMoveUp': function(e)
+        {
+            if(e.target.pos !== 0)
+            {
+                Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos - 1 } );
+            }
+        }
+        
+        , 'click #songlistMoveDown': function(e)
+        {
+            Meteor.call("moveSongInPlaylist", { videoId: e.target.vid, playlistId: e.target.pid, songPosition: e.target.pos + 1 } );
+        }
+        
+        , 'click #songlistRemove': function(e)
+        {
+            Meteor.call("removeSongFromPlaylist", { videoId: e.target.vid, playlistId: e.target.pid });
         }
     })
