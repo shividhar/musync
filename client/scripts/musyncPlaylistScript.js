@@ -1,14 +1,15 @@
     var apiKey = "AIzaSyD-29IN9uHhfvIVgQw9foPpz31bMc0bGE0";
   
     player = undefined;
-    dataApiReady = false;
-    iframeApiReady = false;
+    dataApiReady = new ReactiveVar(false);
+    iframeApiReady = new ReactiveVar(false);
+    currentlyPlayedVideo = 0;
     
     var queuedVideo;
     
     function youtubeDataApiLoaded()
     {
-        dataApiReady = true;
+        dataApiReady.set(true);
     }
     
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
@@ -29,7 +30,23 @@
             events: {
 
                 onReady: function (event) {
-                    iframeApiReady = true;
+                    iframeApiReady.set(true);
+                },
+                onStateChange: function(event){
+                    if(iframeApiReady.get())
+                    {
+                        if(event.data == 0){
+                            console.log(currentlyPlayedVideo)
+                            console.log(Router.current().data().playlist.songList.length)
+                            if(currentlyPlayedVideo + 1 < Router.current().data().playlist.songList.length)
+                            {
+                                currentlyPlayedVideo++;
+                                console.log(currentlyPlayedVideo)
+                                console.log(Router.current().data().playlist.songList[currentlyPlayedVideo])
+                                player.loadVideoById(Router.current().data().playlist.songList[currentlyPlayedVideo]);
+                            }
+                        }
+                    }
                 }
 
             }

@@ -20,6 +20,7 @@ Template.musyncSearchResultItem.helpers({
 Template.musyncSearchResultItem.events({
     'click .songlistAdd': function(e)
     {
-        Meteor.call('addSongToPlaylist', { videoId: e.target.videoId, playlistId: Playlists.findOne().playlistId});
+        console.log(this)
+        Meteor.call('addSongToPlaylist', { videoId:this.videoId, playlistId: Playlists.findOne().playlistId});
     }
 });
