@@ -9,17 +9,17 @@ Template.musyncSongListItem.helpers({
                 {
                     if(response.items.length > 0)
                     {
-                        var data = Session.get("songData");
+                        var data = Session.get("songData" + response.items[0].id.videoId);
                         data.title = response.items[0].snippet.title;
                         data.author = response.items[0].snippet.channelTitle;
                         data.thumb = response.items[0].snippet.thumbnails.default.url;
-                        Session.set("songData", data);
+                        Session.set("songData" + response.items[0].id.videoId, data);
                     }
                 }
             );
             
         }
-        Session.set("songData" + this.songPosition, { title: "", author: "", thumb: "" });
+        Session.set("songData" + this.videoId, { title: "", author: "", thumb: "", songPosition: this.songPosition });
         return this;
         //Session.set("song" + this.songPosition, this);
         //return Session.get("song" + this.songPosition);
@@ -38,14 +38,14 @@ Template.musyncSongListItem.helpers({
     }
     , "songName" : function()
     {
-        return Session.get("songData").title;
+        return Session.get("songData" + this.videoId).title;
     }
     , "songThumb" : function()
     {
-        return Session.get("songData").thumb;
+        return Session.get("songData" + this.videoId).thumb;
     }
     , "songAuthor" : function()
     {
-        return Session.get("songData").author;
+        return Session.get("songData" + this.videoId).author;
     }
 });
