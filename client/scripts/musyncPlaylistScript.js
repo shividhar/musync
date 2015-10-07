@@ -1,7 +1,9 @@
     var apiKey = "AIzaSyD-29IN9uHhfvIVgQw9foPpz31bMc0bGE0";
-    var player;
-    var dataApiReady = false;
-    var iframeApiReady = false;
+  
+    player = undefined;
+    dataApiReady = false;
+    iframeApiReady = false;
+    
     var queuedVideo;
     
     function youtubeDataApiLoaded()

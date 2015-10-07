@@ -14,7 +14,7 @@ Template.musyncSearchResultItem.helpers({
 });
 
 Template.musyncSearchResultItem.events({
-    'click #songlistAdd': function(e)
+    'click .songlistAdd': function(e)
     {
         Meteor.call('addSongToPlaylist', { videoId: e.target.vId, playlistId: Playlists.findOne().playlistId});
     }
