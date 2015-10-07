@@ -9,10 +9,11 @@ Template.musyncSongListItem.helpers({
                 {
                     if(response.items.length > 0)
                     {
-                        var data = Session.set("songData");
+                        var data = Session.get("songData");
                         data.title = response.items[0].snippet.title;
                         data.author = response.items[0].snippet.channelTitle;
                         data.thumb = response.items[0].snippet.thumbnails.default.url;
+                        Session.set("songData", data);
                     }
                 }
             );
