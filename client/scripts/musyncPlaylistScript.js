@@ -51,7 +51,12 @@
             return Session.get('results');
         },
         songList: function(){
-           return this.playlist.songList;
+            var re = new Array(this.playlist.songList.length);
+            for(var i = 0; i < this.playlist.songList.length; i++)
+            {
+                re[i] = {videoId: this.playlist.songList[i], songPosition:i};
+            }
+            return re;
         }
     });
     Template.musyncPlaylist.events({
