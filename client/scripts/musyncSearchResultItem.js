@@ -11,11 +11,15 @@ Template.musyncSearchResultItem.helpers({
     {
         return this.resultThumb;//'http://wac.450f.edgecastcdn.net/80450F/hudsonvalleycountry.com/files/2015/01/cat4.jpg';
     }
+    , videoId: function()
+    {
+        return this.videoId;
+    }
 });
 
 Template.musyncSearchResultItem.events({
     'click .songlistAdd': function(e)
     {
-        Meteor.call('addSongToPlaylist', { videoId: e.target.vId, playlistId: Playlists.findOne().playlistId});
+        Meteor.call('addSongToPlaylist', { videoId: e.target.videoId, playlistId: Playlists.findOne().playlistId});
     }
 });
