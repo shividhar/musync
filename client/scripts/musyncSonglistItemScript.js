@@ -77,6 +77,7 @@ Template.musyncSongListItem.events({
     'click .songlistButton': function(e){
         if(iframeApiReady.get()){
             player.loadVideoById(this.videoId);
+            currentlyPlayedVideo = this.songPosition;
         }
     }
 });
