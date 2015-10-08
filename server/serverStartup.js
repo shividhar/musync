@@ -1,5 +1,7 @@
 Meteor.startup(function () {
     if(Meteor.isServer){
-        AccountsGuest.enabled = false
+        AccountsGuest.enabled = true;
+        AccountsGuest.name = true
+        AccountsGuest.anonymous = true;
     }
 })

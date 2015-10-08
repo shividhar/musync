@@ -6,6 +6,10 @@ if(Meteor.isServer){
             type: Date,
             optional: false
         },
+        authorId: {
+            type: String,
+            optional: false
+        },
         playlistId: {
             type: String,
             optional: false
