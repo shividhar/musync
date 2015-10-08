@@ -1,17 +1,14 @@
 if (Meteor.isClient) {
-  // counter starts at 0
-  Session.setDefault('counter', 1);
-
-  Template.splashPage.helpers({
-    songList: function () {
-        console.log(Random.hexString(6).toUpperCase())
-    }
-  });
-
   Template.splashPage.events({
     'click button': function () {
       // increment the counter when button is clicked
-      Session.set('counter', Session.get('counter') + 1);
+        Meteor.call("createPlaylist", function(err, playlistId){
+            if(err){
+                alert(err)
+                return false
+            }
+            Router.go("playlist", {"playlistId": playlistId})
+        })
     }
   });
 }

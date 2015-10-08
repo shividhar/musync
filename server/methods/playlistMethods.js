@@ -14,7 +14,7 @@ if(Meteor.isServer){
 		        }
 		    }
 		    
-		    return insertedPlaylistId
+		    return playlistId
 		},
 		addSongToPlaylist: function(playlistData){
 		    if(playlistData.videoId == "" || typeof(playlistData.videoId) == 'undefined'){
