@@ -1,7 +1,7 @@
 if(Meteor.isServer){
 	Meteor.methods({
 		createPlaylist: function(){
-		    if(!Meteor.user()){
+		    if(Meteor.user()){
     			var playlistId;	
     			var insertedPlaylistId;
     		    while(!Playlists.findOne({"playlistId": playlistId}) && (Playlists.find({}).count() != 2176782336)){
@@ -15,7 +15,6 @@ if(Meteor.isServer){
             		    })
     		        }
     		    }
-    		    
     		    return playlistId
 		    }
 		},
